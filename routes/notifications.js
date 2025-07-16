@@ -3,10 +3,8 @@ const router = express.Router();
 const notificationService = require('../services/notificationService');
 const authMiddleware = require('../middlewares/auth');
 
-// Apply auth middleware to all notification routes
 router.use(authMiddleware);
 
-// Send partner notification
 router.post('/send-partner-notification', async (req, res) => {
   try {
     const { token, type, payload } = req.body;

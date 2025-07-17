@@ -1,0 +1,8 @@
+# Dependency directories
+node_modules/
+
+# Environment variables
+.env
+
+# Firebase service account key (sensitive credentials)
+couplecode-e645d-firebase-adminsdk-fbsvc-6170df22da.json

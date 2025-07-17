@@ -1,51 +1,40 @@
 const admin = require('firebase-admin');
-const serviceAccount = require('../couplecode-e645d-firebase-adminsdk-fbsvc-466ce0b787.json');
-
+// const serviceAccount = require('../couplecode-e645d-firebase-adminsdk-fbsvc-6170df22da.json');
+const serviceAccount = JSON.parse(
+    Buffer.from(process.env.FIREBASE_ADMIN_SDK_BASE64, "base64")
+  );
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 
 const messaging = admin.messaging();
 
-// const NOTIFICATION_TYPES = {
-//   CONNECTION_REQUEST: 'CONNECTION_REQUEST',
-//   CONNECTION_ACCEPTED: 'CONNECTION_ACCEPTED',
-//   CONNECTION_REJECTED: 'CONNECTION_REJECTED',
-//   CONNECTION_BLOCKED: 'CONNECTION_BLOCKED',
-//   CONNECTION_UNBLOCKED: 'CONNECTION_UNBLOCKED'
 
-// };
 
 const NOTIFICATION_TYPES = {
-    // Existing connection types
     CONNECTION_REQUEST: 'CONNECTION_REQUEST',
     CONNECTION_ACCEPTED: 'CONNECTION_ACCEPTED',
     CONNECTION_REJECTED: 'CONNECTION_REJECTED',
     CONNECTION_BLOCKED: 'CONNECTION_BLOCKED',
     CONNECTION_UNBLOCKED: 'CONNECTION_UNBLOCKED',
     
-    // Free Pass notifications
     FREE_PASS_SETUP_REMINDER: 'FREE_PASS_SETUP_REMINDER',
     FREE_PASS_CONFIGURED: 'FREE_PASS_CONFIGURED',
     FREE_PASS_USED: 'FREE_PASS_USED',
     FREE_PASS_EXPIRED: 'FREE_PASS_EXPIRED',
     
-    // Approval requests
     GOING_OUT_REQUEST: 'GOING_OUT_REQUEST',
     PURCHASE_REQUEST: 'PURCHASE_REQUEST',
     
-    // Approval decisions
     REQUEST_APPROVED: 'REQUEST_APPROVED',
     REQUEST_REJECTED: 'REQUEST_REJECTED',
     REQUEST_APPROVED_WITH_LIMITATIONS: 'REQUEST_APPROVED_WITH_LIMITATIONS',
     REQUEST_IGNORED: 'REQUEST_IGNORED',
     REQUEST_OVERRIDDEN: 'REQUEST_OVERRIDDEN',
     
-    // Decision changes
     DECISION_CHANGED: 'DECISION_CHANGED',
     
-    // Account related
-    PASSWORD_CHANGED: 'PASSWORD_CHANGED',
+  PASSWORD_CHANGED: 'PASSWORD_CHANGED',
     PARTNER_CHANGED: 'PARTNER_CHANGED',
     ACCOUNT_DELETED: 'ACCOUNT_DELETED'
   };
@@ -91,7 +80,6 @@ const sendPartnerNotification = async (token, type, payload) => {
             body = `Your Free Pass configuration has expired. Please set up a new one.`;
             break;
             
-          // Request notifications
           case NOTIFICATION_TYPES.GOING_OUT_REQUEST:
             title = `New Going Out Request`;
             body = `${payload.partnerName} wants to go out: ${payload.subject} on ${payload.date}`;
@@ -101,7 +89,6 @@ const sendPartnerNotification = async (token, type, payload) => {
             body = `${payload.partnerName} wants to purchase: ${payload.item} for ${payload.price}`;
             break;
             
-          // Decision notifications
           case NOTIFICATION_TYPES.REQUEST_APPROVED:
             title = `Request Approved`;
             body = `${payload.partnerName} approved your ${payload.requestType} request`;
@@ -200,4 +187,4 @@ module.exports = {
   sendPartnerNotification,
   sendConnectionNotification,
   NOTIFICATION_TYPES
-};
+}; 

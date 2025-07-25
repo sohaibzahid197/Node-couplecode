@@ -36,7 +36,8 @@ const NOTIFICATION_TYPES = {
     
   PASSWORD_CHANGED: 'PASSWORD_CHANGED',
     PARTNER_CHANGED: 'PARTNER_CHANGED',
-    ACCOUNT_DELETED: 'ACCOUNT_DELETED'
+    ACCOUNT_DELETED: 'ACCOUNT_DELETED',
+      REMOVE_PARTNER: 'REMOVE_PARTNER'
   };
 const sendPartnerNotification = async (token, type, payload) => {
   let title, body;
@@ -129,7 +130,10 @@ const sendPartnerNotification = async (token, type, payload) => {
             title = `Account Deleted`;
             body = `Your account has been successfully deleted`;
             break;
-            
+            case NOTIFICATION_TYPES.REMOVE_PARTNER:
+              title = `Partner Removed`;
+              body = `You have been removed as a partner by ${payload.partnerName}`;
+              break;
           default:
             title = 'New Notification';
             body = 'You have a new notification';

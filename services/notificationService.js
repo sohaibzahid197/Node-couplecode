@@ -83,7 +83,7 @@ const sendPartnerNotification = async (token, type, payload) => {
             
           case NOTIFICATION_TYPES.GOING_OUT_REQUEST:
             title = `New Going Out Request`;
-            body = `${payload.partnerName} wants to go out: ${payload.subject} on ${payload.date}`;
+            body = `${payload.partnerName} wants to go out: ${payload.subject}`;
             break;
           case NOTIFICATION_TYPES.PURCHASE_REQUEST:
             title = `New Purchase Request`;
